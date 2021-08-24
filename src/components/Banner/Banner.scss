@@ -3,12 +3,12 @@
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
-    height: 15rem;
+    height: 25rem;
     background-image: url(../../assets/images/orange-bg.jpg);
-    background-position: center;
+    background-position: bottom;
     background-size: cover;
     &__title {
-        color: rgba(255, 255, 255, 0.85);
+        color: rgba(0, 0, 0, 0.85);
         font-weight: bold;
     }
 }
