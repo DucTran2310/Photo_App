@@ -1,3 +1,4 @@
+```
 src
 |__ assets
 |  |__ images
@@ -25,3 +26,4 @@ src
     |  |__ AddEditPage
     |__ photoSlice.js
     |__ index.js
+  ```
