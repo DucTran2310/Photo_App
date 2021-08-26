@@ -1,9 +1,9 @@
 import Banner from 'components/Banner';
 import PhotoForm from 'features/Photo/components/PhotoForm';
-import { addPhoto } from 'features/Photo/photoSlice';
+import { addPhoto, updatePhoto } from 'features/Photo/photoSlice';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import './styles.scss';
 
 AddEditPage.propTypes = {};
@@ -11,15 +11,35 @@ AddEditPage.propTypes = {};
 function AddEditPage(props) {
     const dispatch = useDispatch();
     const history = useHistory();
+    const { photoId } = useParams();
+    const isAddMode = !photoId;
+
+    const editedPhoto = useSelector(state =>
+        state.photos.find(x => x.id === +photoId));
+    //x.id so ko ss dc vs photoId nen chuyen photoId ve so
+
+    const initialValues = isAddMode
+        ? {
+            title: '',
+            categoryId: null,
+            photoId: '',
+        } : editedPhoto;
 
     const handleSubmit = (values) => {
         return new Promise(resolve => {
             console.log('Form submit: ', values);
 
             setTimeout(() => {
-                const action = addPhoto(values);
-                console.log({ action });
-                dispatch(action);
+                if (isAddMode) {
+                    const action = addPhoto(values);
+                    console.log({ action });
+                    dispatch(action);
+
+                } else {
+                    const action = updatePhoto(values);
+                    dispatch(action);
+                }
+
 
                 history.push('/photos');
                 resolve(true);
@@ -34,6 +54,8 @@ function AddEditPage(props) {
 
             <div className="photo-edit__form">
                 <PhotoForm
+                    isAddMode={isAddMode}
+                    initialValues={initialValues}
                     onSubmit={handleSubmit}
                 />
             </div>
